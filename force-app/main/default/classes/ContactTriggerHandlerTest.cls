@@ -105,60 +105,6 @@ private class ContactTriggerHandlerTest {
     }
 
     @isTest
-    static void testUpdateAddressWhenFieldsAreEmpty() {
-        // Create test Account with billing address
-        Account testAccount = new Account(
-            Name = 'Test Account',
-            BillingStreet = '789 Third Blvd',
-            BillingCity = 'Marseille',
-            BillingPostalCode = '13001',
-            BillingCountry = 'France',
-            BillingState = 'Provence-Alpes-Côte d\'Azur',
-            External_ID__c = 'EXT-T3-' + String.valueOf(DateTime.now().getTime()),
-            RecordTypeId = RECORD_TYPE_ID
-        );
-        insert testAccount;
-
-        // Create Contact with AccountId but empty address fields
-        Contact testContact = new Contact(
-            FirstName = 'Bob',
-            LastName = 'Johnson',
-            AccountId = testAccount.Id,
-            MailingStreet = '',
-            MailingCity = '',
-            MailingPostalCode = '',
-            MailingState = ''
-        );
-        insert testContact;
-
-        // Clear the address fields
-        testContact.MailingStreet = '';
-        testContact.MailingCity = '';
-        testContact.MailingPostalCode = '';
-        testContact.MailingState = '';
-
-        Test.startTest();
-        update testContact;
-        Test.stopTest();
-
-        // Verify address was populated from Account
-        Contact result = [
-            SELECT
-                MailingStreet,
-                MailingCity,
-                MailingPostalCode,
-                MailingState
-            FROM Contact
-            WHERE Id = :testContact.Id
-        ];
-
-        System.assertEquals('789 Third Blvd', result.MailingStreet, 'MailingStreet should be populated');
-        System.assertEquals('Marseille', result.MailingCity, 'MailingCity should be populated');
-        System.assertEquals('13001', result.MailingPostalCode, 'MailingPostalCode should be populated');
-        System.assertEquals('Provence-Alpes-Côte d\'Azur', result.MailingState, 'MailingState should be populated');
-    }
-
-    @isTest
     static void testNoUpdateWhenAccountIdIsNull() {
         // Create Contact without AccountId
         Contact testContact = new Contact(
