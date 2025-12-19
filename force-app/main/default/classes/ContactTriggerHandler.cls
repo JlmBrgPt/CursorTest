@@ -15,24 +15,39 @@ public with sharing class ContactTriggerHandler {
         for (Contact con : newContacts) {
             // Check if AccountId is present and if address needs updating
             if (con.AccountId != null) {
-                // For insert, always update
-                // For update, only update if AccountId changed or address fields are empty
                 Boolean shouldUpdate = false;
+                
                 if (oldContactsMap == null) {
-                    // This is an insert
+                    // This is an insert - always update
                     shouldUpdate = true;
                 } else {
                     // This is an update
                     Contact oldContact = oldContactsMap.get(con.Id);
                     if (oldContact != null) {
-                        if (
-                            con.AccountId != oldContact.AccountId ||
-                            String.isBlank(con.MailingStreet) ||
-                            String.isBlank(con.MailingCity) ||
-                            String.isBlank(con.MailingState) ||
-                            String.isBlank(con.MailingPostalCode)
-                        ) {
+                        // Determine if we should update based on the specific business logic:
+                        // 1. If AccountId changed - always update
+                        // 2. If AccountId unchanged, only update if any address field is empty/null
+                        // 3. If all address fields are populated AND AccountId unchanged - don't update
+                        
+                        if (con.AccountId != oldContact.AccountId) {
+                            // AccountId changed - always update
                             shouldUpdate = true;
+                        } else {
+                            // AccountId unchanged - check address fields
+                            // If any address field is null or empty, update
+                            if (
+                                con.MailingStreet == null || 
+                                con.MailingStreet.trim() == '' ||
+                                con.MailingCity == null || 
+                                con.MailingCity.trim() == '' ||
+                                con.MailingState == null || 
+                                con.MailingState.trim() == '' ||
+                                con.MailingPostalCode == null || 
+                                con.MailingPostalCode.trim() == ''
+                            ) {
+                                shouldUpdate = true;
+                            }
+                            // If all fields are populated and AccountId unchanged, don't update
                         }
                     }
                 }
@@ -63,6 +78,7 @@ public with sharing class ContactTriggerHandler {
             for (Contact con : contactsToUpdate) {
                 Account acc = accountMap.get(con.AccountId);
                 if (acc != null) {
+                    // Preserve empty strings from Account to Contact (important for test case)
                     con.MailingStreet = acc.BillingStreet;
                     con.MailingCity = acc.BillingCity;
                     con.MailingState = acc.BillingState;
@@ -72,4 +88,3 @@ public with sharing class ContactTriggerHandler {
         }
     }
 }
-
