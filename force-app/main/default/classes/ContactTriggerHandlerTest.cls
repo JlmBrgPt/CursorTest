@@ -111,7 +111,8 @@ private class ContactTriggerHandlerTest {
             MailingStreet = '',
             MailingCity = '',
             MailingState = '',
-            MailingPostalCode = ''
+            MailingPostalCode = '',
+            External_ID__c = String.valueOf(DateTime.now().getTime())
         );
         insert testContact;
 
