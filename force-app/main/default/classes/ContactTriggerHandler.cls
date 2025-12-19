@@ -35,7 +35,6 @@ public with sharing class ContactTriggerHandler {
                             // AccountId unchanged - update if any address field is missing
                             if (String.isBlank(con.MailingStreet) ||
                                 String.isBlank(con.MailingCity) ||
-                                String.isBlank(con.MailingState) ||
                                 String.isBlank(con.MailingPostalCode)) {
                                 shouldUpdate = true;
                             }
@@ -61,7 +60,6 @@ public with sharing class ContactTriggerHandler {
                         Id,
                         BillingStreet,
                         BillingCity,
-                        BillingState,
                         BillingPostalCode
                     FROM Account
                     WHERE Id IN :accountIds
@@ -75,7 +73,6 @@ public with sharing class ContactTriggerHandler {
                     // Copy billing address fields from Account to Contact mailing address fields
                     con.MailingStreet = acc.BillingStreet;
                     con.MailingCity = acc.BillingCity;
-                    con.MailingState = acc.BillingState;
                     con.MailingPostalCode = acc.BillingPostalCode;
                 }
             }
