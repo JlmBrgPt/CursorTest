@@ -26,10 +26,10 @@ public class ContactTriggerHandlerTest {
         
         // Verify the contact address was updated
         Contact updatedContact = [SELECT Id, MailingStreet, MailingCity, MailingState, MailingPostalCode FROM Contact WHERE Id = :testContact.Id];
-        System.assertEquals(testAccount.BillingStreet, updatedContact.MailingStreet);
-        System.assertEquals(testAccount.BillingCity, updatedContact.MailingCity);
-        System.assertEquals(testAccount.BillingState, updatedContact.MailingState);
-        System.assertEquals(testAccount.BillingPostalCode, updatedContact.MailingPostalCode);
+        Assert.areEqual(testAccount.BillingStreet, updatedContact.MailingStreet, 'MailingStreet should match Account BillingStreet');
+        Assert.areEqual(testAccount.BillingCity, updatedContact.MailingCity, 'MailingCity should match Account BillingCity');
+        Assert.areEqual(testAccount.BillingState, updatedContact.MailingState, 'MailingState should match Account BillingState');
+        Assert.areEqual(testAccount.BillingPostalCode, updatedContact.MailingPostalCode, 'MailingPostalCode should match Account BillingPostalCode');
     }
     
     @isTest
@@ -76,10 +76,10 @@ public class ContactTriggerHandlerTest {
         
         // Verify the contact address was updated to second account's address
         Contact updatedContact = [SELECT Id, MailingStreet, MailingCity, MailingState, MailingPostalCode FROM Contact WHERE Id = :testContact.Id];
-        System.assertEquals(testAccount2.BillingStreet, updatedContact.MailingStreet);
-        System.assertEquals(testAccount2.BillingCity, updatedContact.MailingCity);
-        System.assertEquals(testAccount2.BillingState, updatedContact.MailingState);
-        System.assertEquals(testAccount2.BillingPostalCode, updatedContact.MailingPostalCode);
+        Assert.areEqual(testAccount2.BillingStreet, updatedContact.MailingStreet, 'MailingStreet should match Account2 BillingStreet');
+        Assert.areEqual(testAccount2.BillingCity, updatedContact.MailingCity, 'MailingCity should match Account2 BillingCity');
+        Assert.areEqual(testAccount2.BillingState, updatedContact.MailingState, 'MailingState should match Account2 BillingState');
+        Assert.areEqual(testAccount2.BillingPostalCode, updatedContact.MailingPostalCode, 'MailingPostalCode should match Account2 BillingPostalCode');
     }
     
     @isTest
@@ -123,10 +123,10 @@ public class ContactTriggerHandlerTest {
         
         // Verify the contact address was updated (street should be filled)
         Contact updatedContact = [SELECT Id, MailingStreet, MailingCity, MailingState, MailingPostalCode FROM Contact WHERE Id = :testContact.Id];
-        System.assertEquals(testAccount.BillingStreet, updatedContact.MailingStreet);
-        System.assertEquals(testAccount.BillingCity, updatedContact.MailingCity);
-        System.assertEquals(testAccount.BillingState, updatedContact.MailingState);
-        System.assertEquals(testAccount.BillingPostalCode, updatedContact.MailingPostalCode);
+        Assert.areEqual(testAccount.BillingStreet, updatedContact.MailingStreet, 'MailingStreet should match Account BillingStreet');
+        Assert.areEqual(testAccount.BillingCity, updatedContact.MailingCity, 'MailingCity should match Account BillingCity');
+        Assert.areEqual(testAccount.BillingState, updatedContact.MailingState, 'MailingState should match Account BillingState');
+        Assert.areEqual(testAccount.BillingPostalCode, updatedContact.MailingPostalCode, 'MailingPostalCode should match Account BillingPostalCode');
     }
     
     @isTest
@@ -170,10 +170,10 @@ public class ContactTriggerHandlerTest {
         
         // Verify the contact address was NOT updated (should remain the same)
         Contact updatedContact = [SELECT Id, MailingStreet, MailingCity, MailingState, MailingPostalCode FROM Contact WHERE Id = :testContact.Id];
-        System.assertEquals('123 Main St', updatedContact.MailingStreet);
-        System.assertEquals('Test City', updatedContact.MailingCity);
-        System.assertEquals('CA', updatedContact.MailingState);
-        System.assertEquals('12345', updatedContact.MailingPostalCode);
+        Assert.areEqual('123 Main St', updatedContact.MailingStreet, 'MailingStreet should remain unchanged');
+        Assert.areEqual('Test City', updatedContact.MailingCity, 'MailingCity should remain unchanged');
+        Assert.areEqual('CA', updatedContact.MailingState, 'MailingState should remain unchanged');
+        Assert.areEqual('12345', updatedContact.MailingPostalCode, 'MailingPostalCode should remain unchanged');
     }
     
     @isTest
@@ -191,9 +191,9 @@ public class ContactTriggerHandlerTest {
         
         // Verify no changes occurred
         Contact updatedContact = [SELECT Id, MailingStreet, MailingCity, MailingState, MailingPostalCode FROM Contact WHERE Id = :testContact.Id];
-        System.assertNull(updatedContact.MailingStreet);
-        System.assertNull(updatedContact.MailingCity);
-        System.assertNull(updatedContact.MailingState);
-        System.assertNull(updatedContact.MailingPostalCode);
+        Assert.isNull(updatedContact.MailingStreet, 'MailingStreet should be null when Contact has no AccountId');
+        Assert.isNull(updatedContact.MailingCity, 'MailingCity should be null when Contact has no AccountId');
+        Assert.isNull(updatedContact.MailingState, 'MailingState should be null when Contact has no AccountId');
+        Assert.isNull(updatedContact.MailingPostalCode, 'MailingPostalCode should be null when Contact has no AccountId');
     }
 }
