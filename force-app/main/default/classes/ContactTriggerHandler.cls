@@ -10,48 +10,42 @@ public with sharing class ContactTriggerHandler {
     ) {
         // Collect Account IDs that need to be queried
         Set<Id> accountIds = new Set<Id>();
+        
+        // Identify contacts that need address updates
         List<Contact> contactsToUpdate = new List<Contact>();
-
+        
         for (Contact con : newContacts) {
-            // Check if AccountId is present and if address needs updating
+            // Only process contacts that have an AccountId
             if (con.AccountId != null) {
+                // Determine if we should update the contact address
                 Boolean shouldUpdate = false;
                 
+                // For inserts, always update
                 if (oldContactsMap == null) {
-                    // This is an insert - always update
                     shouldUpdate = true;
                 } else {
-                    // This is an update
+                    // For updates, check if we should update based on business logic
                     Contact oldContact = oldContactsMap.get(con.Id);
                     if (oldContact != null) {
-                        // Determine if we should update based on the specific business logic:
-                        // 1. If AccountId changed - always update
-                        // 2. If AccountId unchanged, only update if any address field is empty/null
-                        // 3. If all address fields are populated AND AccountId unchanged - don't update
-                        
+                        // Update if AccountId has changed OR if any address field is null/empty
                         if (con.AccountId != oldContact.AccountId) {
                             // AccountId changed - always update
                             shouldUpdate = true;
                         } else {
-                            // AccountId unchanged - check address fields
-                            // If any address field is null or empty, update
-                            if (
-                                con.MailingStreet == null || 
-                                con.MailingStreet.trim() == '' ||
-                                con.MailingCity == null || 
-                                con.MailingCity.trim() == '' ||
-                                con.MailingState == null || 
-                                con.MailingState.trim() == '' ||
-                                con.MailingPostalCode == null || 
-                                con.MailingPostalCode.trim() == ''
-                            ) {
+                            // AccountId unchanged - update if any address field is missing
+                            if (String.isBlank(con.MailingStreet) ||
+                                String.isBlank(con.MailingCity) ||
+                                String.isBlank(con.MailingState) ||
+                                String.isBlank(con.MailingPostalCode)) {
                                 shouldUpdate = true;
                             }
-                            // If all fields are populated and AccountId unchanged, don't update
                         }
+                    } else {
+                        // No old contact found - likely an insert scenario
+                        shouldUpdate = true;
                     }
                 }
-
+                
                 if (shouldUpdate) {
                     accountIds.add(con.AccountId);
                     contactsToUpdate.add(con);
@@ -78,7 +72,7 @@ public with sharing class ContactTriggerHandler {
             for (Contact con : contactsToUpdate) {
                 Account acc = accountMap.get(con.AccountId);
                 if (acc != null) {
-                    // Preserve empty strings from Account to Contact (important for test case)
+                    // Copy billing address fields from Account to Contact mailing address fields
                     con.MailingStreet = acc.BillingStreet;
                     con.MailingCity = acc.BillingCity;
                     con.MailingState = acc.BillingState;
