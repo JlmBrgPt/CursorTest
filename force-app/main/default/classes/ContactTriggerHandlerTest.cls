@@ -99,7 +99,8 @@ private class ContactTriggerHandlerTest {
             BillingStreet = '789 Third Blvd',
             BillingCity = 'Chicago',
             BillingState = 'IL',
-            BillingPostalCode = '60601'
+            BillingPostalCode = '60601',
+            External_ID__c = String.valueOf(DateTime.now().getTime())
         );
         insert testAccount;
 
@@ -111,8 +112,7 @@ private class ContactTriggerHandlerTest {
             MailingStreet = '',
             MailingCity = '',
             MailingState = '',
-            MailingPostalCode = '',
-            External_ID__c = String.valueOf(DateTime.now().getTime())
+            MailingPostalCode = ''
         );
         insert testContact;
 
