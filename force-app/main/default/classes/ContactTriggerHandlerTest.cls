@@ -276,8 +276,7 @@ private class ContactTriggerHandlerTest {
         Contact testContact = new Contact(
             FirstName = 'Null',
             LastName = 'Address',
-            AccountId = testAccount.Id,
-            External_ID__c = 'TEST_NULL_ADDR_' + String.valueOf(DateTime.now().getTime())
+            AccountId = testAccount.Id
         );
 
         Test.startTest();
