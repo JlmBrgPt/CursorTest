@@ -30,8 +30,7 @@ public with sharing class ContactTriggerHandler {
                             String.isBlank(con.MailingStreet) ||
                             String.isBlank(con.MailingCity) ||
                             String.isBlank(con.MailingState) ||
-                            String.isBlank(con.MailingPostalCode) ||
-                            String.isBlank(con.MailingCountry)
+                            String.isBlank(con.MailingPostalCode)
                         ) {
                             shouldUpdate = true;
                         }
@@ -54,8 +53,7 @@ public with sharing class ContactTriggerHandler {
                         BillingStreet,
                         BillingCity,
                         BillingState,
-                        BillingPostalCode,
-                        BillingCountry
+                        BillingPostalCode
                     FROM Account
                     WHERE Id IN :accountIds
                 ]
@@ -69,7 +67,6 @@ public with sharing class ContactTriggerHandler {
                     con.MailingCity = acc.BillingCity;
                     con.MailingState = acc.BillingState;
                     con.MailingPostalCode = acc.BillingPostalCode;
-                    con.MailingCountry = acc.BillingCountry;
                 }
             }
         }

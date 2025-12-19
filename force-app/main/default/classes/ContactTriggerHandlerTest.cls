@@ -8,8 +8,7 @@ private class ContactTriggerHandlerTest {
             BillingStreet = '123 Main St',
             BillingCity = 'San Francisco',
             BillingState = 'CA',
-            BillingPostalCode = '94105',
-            BillingCountry = 'USA'
+            BillingPostalCode = '94105'
         );
         insert testAccount;
 
@@ -30,8 +29,7 @@ private class ContactTriggerHandlerTest {
                 MailingStreet,
                 MailingCity,
                 MailingState,
-                MailingPostalCode,
-                MailingCountry
+                MailingPostalCode
             FROM Contact
             WHERE Id = :testContact.Id
         ];
@@ -40,7 +38,6 @@ private class ContactTriggerHandlerTest {
         System.assertEquals('San Francisco', result.MailingCity, 'MailingCity should match Account BillingCity');
         System.assertEquals('CA', result.MailingState, 'MailingState should match Account BillingState');
         System.assertEquals('94105', result.MailingPostalCode, 'MailingPostalCode should match Account BillingPostalCode');
-        System.assertEquals('USA', result.MailingCountry, 'MailingCountry should match Account BillingCountry');
     }
 
     @isTest
@@ -51,16 +48,14 @@ private class ContactTriggerHandlerTest {
             BillingStreet = '123 First St',
             BillingCity = 'New York',
             BillingState = 'NY',
-            BillingPostalCode = '10001',
-            BillingCountry = 'USA'
+            BillingPostalCode = '10001'
         );
         Account account2 = new Account(
             Name = 'Account 2',
             BillingStreet = '456 Second Ave',
             BillingCity = 'Los Angeles',
             BillingState = 'CA',
-            BillingPostalCode = '90001',
-            BillingCountry = 'USA'
+            BillingPostalCode = '90001'
         );
         insert new List<Account>{ account1, account2 };
 
@@ -104,8 +99,7 @@ private class ContactTriggerHandlerTest {
             BillingStreet = '789 Third Blvd',
             BillingCity = 'Chicago',
             BillingState = 'IL',
-            BillingPostalCode = '60601',
-            BillingCountry = 'USA'
+            BillingPostalCode = '60601'
         );
         insert testAccount;
 
@@ -117,8 +111,7 @@ private class ContactTriggerHandlerTest {
             MailingStreet = '',
             MailingCity = '',
             MailingState = '',
-            MailingPostalCode = '',
-            MailingCountry = ''
+            MailingPostalCode = ''
         );
         insert testContact;
 
@@ -127,7 +120,6 @@ private class ContactTriggerHandlerTest {
         testContact.MailingCity = '';
         testContact.MailingState = '';
         testContact.MailingPostalCode = '';
-        testContact.MailingCountry = '';
 
         Test.startTest();
         update testContact;
@@ -139,8 +131,7 @@ private class ContactTriggerHandlerTest {
                 MailingStreet,
                 MailingCity,
                 MailingState,
-                MailingPostalCode,
-                MailingCountry
+                MailingPostalCode
             FROM Contact
             WHERE Id = :testContact.Id
         ];
@@ -149,7 +140,6 @@ private class ContactTriggerHandlerTest {
         System.assertEquals('Chicago', result.MailingCity, 'MailingCity should be populated');
         System.assertEquals('IL', result.MailingState, 'MailingState should be populated');
         System.assertEquals('60601', result.MailingPostalCode, 'MailingPostalCode should be populated');
-        System.assertEquals('USA', result.MailingCountry, 'MailingCountry should be populated');
     }
 
     @isTest
@@ -161,8 +151,7 @@ private class ContactTriggerHandlerTest {
             MailingStreet = '999 Test St',
             MailingCity = 'Boston',
             MailingState = 'MA',
-            MailingPostalCode = '02101',
-            MailingCountry = 'USA'
+            MailingPostalCode = '02101'
         );
 
         Test.startTest();
@@ -175,8 +164,7 @@ private class ContactTriggerHandlerTest {
                 MailingStreet,
                 MailingCity,
                 MailingState,
-                MailingPostalCode,
-                MailingCountry
+                MailingPostalCode
             FROM Contact
             WHERE Id = :testContact.Id
         ];
@@ -185,7 +173,6 @@ private class ContactTriggerHandlerTest {
         System.assertEquals('Boston', result.MailingCity, 'MailingCity should remain unchanged');
         System.assertEquals('MA', result.MailingState, 'MailingState should remain unchanged');
         System.assertEquals('02101', result.MailingPostalCode, 'MailingPostalCode should remain unchanged');
-        System.assertEquals('USA', result.MailingCountry, 'MailingCountry should remain unchanged');
     }
 
     @isTest
@@ -196,8 +183,7 @@ private class ContactTriggerHandlerTest {
             BillingStreet = '111 Account St',
             BillingCity = 'Seattle',
             BillingState = 'WA',
-            BillingPostalCode = '98101',
-            BillingCountry = 'USA'
+            BillingPostalCode = '98101'
         );
         insert testAccount;
 
@@ -209,8 +195,7 @@ private class ContactTriggerHandlerTest {
             MailingStreet = '222 Contact St',
             MailingCity = 'Portland',
             MailingState = 'OR',
-            MailingPostalCode = '97201',
-            MailingCountry = 'USA'
+            MailingPostalCode = '97201'
         );
         insert testContact;
 
@@ -227,8 +212,7 @@ private class ContactTriggerHandlerTest {
                 MailingStreet,
                 MailingCity,
                 MailingState,
-                MailingPostalCode,
-                MailingCountry
+                MailingPostalCode
             FROM Contact
             WHERE Id = :testContact.Id
         ];
@@ -237,7 +221,6 @@ private class ContactTriggerHandlerTest {
         System.assertEquals('Portland', result.MailingCity, 'MailingCity should remain unchanged when already populated');
         System.assertEquals('OR', result.MailingState, 'MailingState should remain unchanged when already populated');
         System.assertEquals('97201', result.MailingPostalCode, 'MailingPostalCode should remain unchanged when already populated');
-        System.assertEquals('USA', result.MailingCountry, 'MailingCountry should remain unchanged when already populated');
     }
 
     @isTest
@@ -248,8 +231,7 @@ private class ContactTriggerHandlerTest {
             BillingStreet = '555 Bulk St',
             BillingCity = 'Denver',
             BillingState = 'CO',
-            BillingPostalCode = '80201',
-            BillingCountry = 'USA'
+            BillingPostalCode = '80201'
         );
         insert testAccount;
 
@@ -293,7 +275,8 @@ private class ContactTriggerHandlerTest {
         Contact testContact = new Contact(
             FirstName = 'Null',
             LastName = 'Address',
-            AccountId = testAccount.Id
+            AccountId = testAccount.Id,
+            External_ID__c = 'TEST_NULL_ADDR_' + String.valueOf(DateTime.now().getTime())
         );
 
         Test.startTest();
@@ -306,8 +289,7 @@ private class ContactTriggerHandlerTest {
                 MailingStreet,
                 MailingCity,
                 MailingState,
-                MailingPostalCode,
-                MailingCountry
+                MailingPostalCode
             FROM Contact
             WHERE Id = :testContact.Id
         ];
